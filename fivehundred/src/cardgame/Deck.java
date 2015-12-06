@@ -51,6 +51,7 @@ public class Deck {
 	 */
 	public Card dealCard(){
 		if(cards.size() <= 0){
+			System.out.println("NO CARDS");
 			return null;					//Return null if no cards left
 		}
 		return cards.remove(0);

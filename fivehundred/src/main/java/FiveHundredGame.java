@@ -30,18 +30,25 @@ public class FiveHundredGame {
 	
 	private void createDeck(){
 		
+		System.out.println("Dealing new deck");
+		
 		deck = new Deck();
 		
 		deck.addCard(new Card(Card.joker_suit, (short)0));
 		
-		deck.addCard(new Card(Card.spades_suit, (short)4));
-		deck.addCard(new Card(Card.clubs_suit, (short)4));
+		deck.addCard(new Card(Card.diamonds_suit, (short)3));
+		deck.addCard(new Card(Card.hearts_suit, (short)3));
 		
 		for (short suit=0; suit<=3; suit++) {
-			for (short rank=5; rank<=12; rank++){
+			for (short rank=4; rank<=12; rank++){
 				deck.addCard(new Card(suit,rank));
 			}
+			deck.addCard(new Card(suit, (short)0)); //Add the aces
 		} // End of for loop
+		
+		System.out.println(deck.getTotalCards()+" cards dealt");
+		
+		deck.shuffleStandard();
 	}
 	
 	/**
@@ -50,6 +57,10 @@ public class FiveHundredGame {
 	 */
 	public void newHand(){
 		
+		if(deck.getTotalCards() < 43){
+			System.out.println("Not enough cards. Required 43 cards, found " + deck.getTotalCards());
+			return;
+		}
 		//First pass
 		for (int i=0;i<3;i++){
 			north.addCard(deck.dealCard());		
@@ -108,6 +119,9 @@ public class FiveHundredGame {
 		
 		System.out.println("east");
 		System.out.print(east.toString());
+		
+		//REMOVE
+		south.select(2);
 	}
 	
 	public void endRound(){

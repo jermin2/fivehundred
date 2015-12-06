@@ -10,7 +10,7 @@ import cardgame.Card;
 
 public class FiveHundredPanel extends JPanel {
 
-	
+	//TODO: IMplement mouseActionListener for move
 	HashMap<String, Image> images;
 	FiveHundredHand hand;
 	
@@ -51,10 +51,16 @@ public class FiveHundredPanel extends JPanel {
 		super.paintComponent(g);
 		
 		int x=0;
+		int selected_x=x;
 		for(Card c: hand.getCards()){
-			g.drawImage(images.get(c.getPicture()), x, 0, this);
+			
+			if(c != hand.getSelected())
+				g.drawImage(images.get(c.getPicture()), x, 15, this);
+			else
+				g.drawImage(images.get(hand.getSelected().getPicture()), x, 0, this);
 			x+=15;
 		}
+
 	}
 	
 	public void doSomething(){

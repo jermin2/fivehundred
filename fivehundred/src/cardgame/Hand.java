@@ -6,6 +6,19 @@ import java.util.Collections;
 public abstract class Hand {
 
 	private ArrayList<Card> hand = new ArrayList<Card>();
+	private Card selected = null;
+	
+	
+	public void select(int index){
+		this.selected = hand.get(index);
+	}
+	
+	/**
+	 * Get the currently selected card
+	 */
+	public Card getSelected () {
+		return selected;
+	}
 	
 	/**
 	 * Add a card to this hand
@@ -66,6 +79,9 @@ public abstract class Hand {
 	public String toString(){
 		String s = "";
 		for (Card c : hand){
+			/*if(c==null){
+				return "null card";
+			}*/
 			s = s+c.toString() + "\n";
 		}
 		return s;
