@@ -27,9 +27,14 @@ public class FiveHundredGUI {
 
 	private JFrame frmFiveHundred;
 	
+	private FiveHundredPanel ncardPanel;
+	private FiveHundredPanel ecardPanel;
 	private FiveHundredPanel scardPanel;
+	private FiveHundredPanel wcardPanel;
 	
 	private HashMap<String, Image> images;
+	
+	private FiveHundredGame game;
 
 	/**
 	 * Launch the application.
@@ -54,6 +59,31 @@ public class FiveHundredGUI {
 		
 		loadImages();
 		initialize();
+		initialize_game();
+	}
+	
+	public void initialize_game(){
+		
+		ArrayList<FiveHundredHand> players = new ArrayList<FiveHundredHand>();
+
+		FiveHundredHand n = new FiveHundredHand("north");
+		ncardPanel.setHand(n);
+		players.add(n);
+		
+		FiveHundredHand s = new FiveHundredHand("south");
+		scardPanel.setHand(s);
+		players.add(s);
+		
+		FiveHundredHand e = new FiveHundredHand("east");
+		ecardPanel.setHand(e);
+		players.add(e);
+		
+		FiveHundredHand w = new FiveHundredHand("west");
+		wcardPanel.setHand(w);
+		players.add(w);
+		scardPanel = new FiveHundredPanel(images);
+		
+		game = new FiveHundredGame(players);
 	}
 	
 	public void loadImages(){
@@ -63,7 +93,7 @@ public class FiveHundredGUI {
 		
 		images = new HashMap<String, Image>();
 
-		String ranks[] = {"2","3","4","5","6","7","8","9","t"};
+		String ranks[] = {"a","2","3","4","5","6","7","8","9","t","j","q","k"};
 		String suits[] = {"s","c","d","h"};
 
 		ArrayList<String> cards = new ArrayList<String>();
@@ -105,7 +135,7 @@ public class FiveHundredGUI {
 	}
 	
 	public void newHand(){
-		scardPanel.doSomething();
+		game.newHand();
 	}
 
 	/**
@@ -123,7 +153,7 @@ public class FiveHundredGUI {
 		gridBagLayout.rowWeights = new double[]{1.0, 1.0, 1.0};
 		frmFiveHundred.getContentPane().setLayout(gridBagLayout);
 		
-		JPanel ncardPanel = new JPanel();
+		ncardPanel = new FiveHundredPanel(images);
 		GridBagConstraints gbc_ncardPanel = new GridBagConstraints();
 		gbc_ncardPanel.fill = GridBagConstraints.BOTH;
 		gbc_ncardPanel.insets = new Insets(0, 0, 5, 5);
@@ -131,7 +161,7 @@ public class FiveHundredGUI {
 		gbc_ncardPanel.gridy = 0;
 		frmFiveHundred.getContentPane().add(ncardPanel, gbc_ncardPanel);
 		
-		JPanel wcardPanel = new JPanel();
+		wcardPanel = new FiveHundredPanel(images);
 		GridBagConstraints gbc_wcardPanel = new GridBagConstraints();
 		gbc_wcardPanel.fill = GridBagConstraints.BOTH;
 		gbc_wcardPanel.insets = new Insets(0, 0, 5, 5);
@@ -164,7 +194,7 @@ public class FiveHundredGUI {
 		gbc_button.gridy = 2;
 		tablePanel.add(button, gbc_button);
 		
-		JPanel ecardPanel = new JPanel();
+		ecardPanel = new FiveHundredPanel(images);
 		GridBagConstraints gbc_ecardPanel = new GridBagConstraints();
 		gbc_ecardPanel.fill = GridBagConstraints.BOTH;
 		gbc_ecardPanel.insets = new Insets(0, 0, 5, 0);

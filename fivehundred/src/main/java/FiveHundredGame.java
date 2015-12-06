@@ -2,6 +2,7 @@ package main.java;
 
 import java.util.ArrayList;
 
+import cardgame.Card;
 import cardgame.Deck;
 
 public class FiveHundredGame {
@@ -20,7 +21,27 @@ public class FiveHundredGame {
 		south = players.get(2);
 		east = players.get(3);
 		
-		deck = Deck.createStandardDeck();
+		
+		createDeck();
+		
+		// Create Kitty here. May change later on
+		kitty = new FiveHundredHand("kitty");
+	}
+	
+	private void createDeck(){
+		
+		deck = new Deck();
+		
+		deck.addCard(new Card(Card.joker_suit, (short)0));
+		
+		deck.addCard(new Card(Card.spades_suit, (short)4));
+		deck.addCard(new Card(Card.clubs_suit, (short)4));
+		
+		for (short suit=0; suit<=3; suit++) {
+			for (short rank=5; rank<=12; rank++){
+				deck.addCard(new Card(suit,rank));
+			}
+		} // End of for loop
 	}
 	
 	/**
@@ -73,7 +94,20 @@ public class FiveHundredGame {
 			east.addCard(deck.dealCard());		
 		}
 		kitty.addCard(deck.dealCard());
+		System.out.println("kitty");
+		System.out.print(kitty.toString());
 
+		System.out.println("north");
+		System.out.print(north.toString());
+		
+		System.out.println("west");
+		System.out.print(west.toString());
+		
+		System.out.println("south");
+		System.out.print(south.toString());
+		
+		System.out.println("east");
+		System.out.print(east.toString());
 	}
 	
 	public void endRound(){

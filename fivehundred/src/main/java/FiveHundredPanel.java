@@ -13,7 +13,6 @@ public class FiveHundredPanel extends JPanel {
 	
 	HashMap<String, Image> images;
 	FiveHundredHand hand;
-	Card c = new Card((short)2, (short)2);
 	
 	/**
 	 * 
@@ -22,6 +21,15 @@ public class FiveHundredPanel extends JPanel {
 	public FiveHundredPanel(HashMap<String, Image> images){
 		this.images = images;
 		
+	}                           
+	
+	/**
+	 * Set the hand for the this panel. This ties the player to this panel and this panel will display
+	 * the players hand
+	 * @param hand
+	 */
+	public void setHand(FiveHundredHand hand){
+		this.hand = hand;
 	}
 	
 	void drawCard(Graphics g, Card card, int x, int y) {
@@ -42,10 +50,11 @@ public class FiveHundredPanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		drawCard(g, c, 10, 10);
-		drawCard(g, c, 30, 10);
-		drawCard(g, c, 50, 10);
-		drawCard(g, c, 70, 10);
+		int x=0;
+		for(Card c: hand.getCards()){
+			g.drawImage(images.get(c.getPicture()), x, 0, this);
+			x+=15;
+		}
 	}
 	
 	public void doSomething(){

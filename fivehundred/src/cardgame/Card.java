@@ -7,10 +7,16 @@ import common.Sprite;
 public class Card {
 	private short rank, suit;
 	private String picture = "b";			//Shorthand name of picture
-	private static String[] suits = {"hearts", "spades", "diamonds", "clubs" };
-	private static String[] ranks = {"Ace", "2", "3", "4","5", "6", "7","8","9","10","Jack","Queen","King"};
-	private static String[] jokers = {"Joker", "Joker"};
+	private static String[] suits = {"spades", "clubs", "diamonds", "hearts" };
+	private static String[] ranks = {"ace", "2", "3", "4","5", "6", "7","8","9","ten","jack","queen","king"};
+	private static String[] jokers = {"joker", "joker"};
 	private static String[] ranks2 = {"0","0"};
+	
+	public static short joker_suit = 5;
+	public static short spades_suit = 0;
+	public static short clubs_suit = 1;
+	public static short diamonds_suit = 2;
+	public static short hearts_suit = 3;
 	
 	public static String rankAsString( int __rank ) {
 		if( __rank != 0){
@@ -22,15 +28,16 @@ public class Card {
 	public Card(short suit, short rank){
 		this.rank = rank;
 		this.suit = suit;
-		this.picture = ranks[rank]+suits[suit].charAt(0);
+		
+		if(suit<5)
+			this.picture = String.valueOf(ranks[rank].charAt(0))+suits[suit].charAt(0);
+		else
+			this.picture= String.valueOf(jokers[0].charAt(0));
 		System.out.println("New Card: " + picture);
 	}//End of Card Initializer
 	
 	public @Override String toString(){
-		if(suit==5){
-			return "Joker";
-		}
-		if(rank==0){
+		if(suit==Card.joker_suit){
 			return "Joker";
 		}
 		return ranks[rank] + " of " + suits[suit];

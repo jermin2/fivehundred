@@ -59,6 +59,9 @@ public abstract class Hand {
 		//TODO Collections.sort(hand);
 	}
 	
+	/**
+	 * Writes out all the cards in this hand in a readable string
+	 */
 	@Override
 	public String toString(){
 		String s = "";
@@ -66,5 +69,13 @@ public abstract class Hand {
 			s = s+c.toString() + "\n";
 		}
 		return s;
-	}
+	}//End of toString
+	
+	/**
+	 * Get the list of cards in this hand
+	 * @return
+	 */
+	public ArrayList<Card> getCards(){
+		return hand;
+	}// End of getCards()
 }
