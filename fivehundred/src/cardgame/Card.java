@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import common.Sprite;
 
 public class Card {
-	private short rank, suit;
+	private short rank, suit, value;
 	private String picture = "b";			//Shorthand name of picture
 	private static String[] suits = {"spades", "clubs", "diamonds", "hearts" };
 	private static String[] ranks = {"ace", "2", "3", "4","5", "6", "7","8","9","ten","jack","queen","king"};
@@ -58,5 +58,22 @@ public class Card {
 	public String getPicture(){
 		return picture;
 	}//End of picture
+	
+	/**
+	 * Set the relative value of this card. Values are set externally by the game
+	 * @param v
+	 */
+	public void setValue(short v){
+		this.value = v;
+	}// End setValue
+	
+	/**
+	 * Get the relative value of this card. Values are set by calling the setValue(short v) function
+	 * @return
+	 */
+	public short getValue(){
+		return value;
+	}// End getValue
+	
 	
 }//End of Card

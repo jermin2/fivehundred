@@ -70,6 +70,10 @@ public class FiveHundredGUI {
 		ncardPanel.setHand(n);
 		players.add(n);
 		
+		FiveHundredHand w = new FiveHundredHand("west");
+		wcardPanel.setHand(w);
+		players.add(w);
+		
 		FiveHundredHand s = new FiveHundredHand("south");
 		scardPanel.setHand(s);
 		players.add(s);
@@ -78,10 +82,7 @@ public class FiveHundredGUI {
 		ecardPanel.setHand(e);
 		players.add(e);
 		
-		FiveHundredHand w = new FiveHundredHand("west");
-		wcardPanel.setHand(w);
-		players.add(w);
-		scardPanel = new FiveHundredPanel(images);
+
 		
 		game = new FiveHundredGame(players);
 	}
@@ -144,7 +145,7 @@ public class FiveHundredGUI {
 	private void initialize() {
 		frmFiveHundred = new JFrame();
 		frmFiveHundred.setTitle("Five Hundred");
-		frmFiveHundred.setBounds(100, 100, 450, 300);
+		frmFiveHundred.setBounds(100, 100, 661, 396);
 		frmFiveHundred.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] {127, 127, 127};
@@ -177,9 +178,9 @@ public class FiveHundredGUI {
 		gbc_tablePanel.gridy = 1;
 		frmFiveHundred.getContentPane().add(tablePanel, gbc_tablePanel);
 		GridBagLayout gbl_tablePanel = new GridBagLayout();
-		gbl_tablePanel.columnWidths = new int[]{0, 0, 0};
+		gbl_tablePanel.columnWidths = new int[]{0, 0, 0, 0};
 		gbl_tablePanel.rowHeights = new int[]{0, 0, 0, 0};
-		gbl_tablePanel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_tablePanel.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_tablePanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		tablePanel.setLayout(gbl_tablePanel);
 		
@@ -190,8 +191,9 @@ public class FiveHundredGUI {
 			}
 		});
 		GridBagConstraints gbc_button = new GridBagConstraints();
+		gbc_button.insets = new Insets(0, 0, 5, 5);
 		gbc_button.gridx = 1;
-		gbc_button.gridy = 2;
+		gbc_button.gridy = 1;
 		tablePanel.add(button, gbc_button);
 		
 		ecardPanel = new FiveHundredPanel(images);

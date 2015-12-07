@@ -7,10 +7,31 @@ public abstract class Hand {
 
 	private ArrayList<Card> hand = new ArrayList<Card>();
 	private Card selected = null;
+	private Card hover = null;
 	
+	public void hover(int index){
+		if(index < 0)
+			this.hover = null;
+		else
+			this.hover = hand.get(index);
+	}
+	
+	/**
+	 * Get the currently selected card
+	 */
+	public Card getHovered () {
+		return hover;
+	}
 	
 	public void select(int index){
-		this.selected = hand.get(index);
+		if(index < 0){
+			this.selected = null;
+		} else{
+			if(hand.get(index) == this.getSelected())
+				this.selected = null;
+			else
+				this.selected = hand.get(index);
+		}
 	}
 	
 	/**
@@ -18,6 +39,11 @@ public abstract class Hand {
 	 */
 	public Card getSelected () {
 		return selected;
+	}
+	
+	public Card removeSelected(){
+		
+		return removeCard(selected);
 	}
 	
 	/**
