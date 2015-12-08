@@ -1,6 +1,7 @@
 package main.java;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import cardgame.Card;
@@ -10,35 +11,110 @@ public class FiveHundredGame {
 
 	private Deck deck;
 	private FiveHundredHand north, west, south, east;
-	private ArrayList<FiveHundredHand> players;
-	private int currentTurn = 0;
+	private HashMap<Players,FiveHundredHand> players;
+	
+	public enum Players {north, west, south, east, none};	
+	
 	private FiveHundredHand kitty;
 	private ArrayList<String> bidding;
 	
-	private ArrayList<Card> tableCards;
+	private HashMap<Players,Card> tableCards;
+	
+	private GameState gameState;
 	
 	private String bids[] = {"6s", "6c", "6d","6h","6NT","7s","7c","7d","7h","7NT","CLOSED","8s","8c","8d","8h","8NT","OPEN",
 			"9s","9c","9d","9h","9NT","10s","10c","10d","10h","10NT"};
 	
-	
+	/**
+	 * Internal class to keep track of whos turn it is. 
+	 * @author jermi
+	 *
+	 */
+	class GameState {
+		
+		private Players currentPlayer = Players.none;	
+		private Players firstPlayer = Players.none;
+		private boolean firstCard = true;
+		
+		/**
+		 * Set the first player
+		 * @param p The first player of the round
+		 */
+		public void setFirstPlayer(Players p){
+			firstPlayer = p;
+			currentPlayer = p;
+			firstCard = true;
+		}
+		
+		/**
+		 * Return the first player
+		 * @return
+		 */
+		public Players getFirstPlayer(){
+			return firstPlayer;
+		}
+		
+		/**
+		 * Return the current player
+		 * @return
+		 */
+		public Players getCurrentPlayer(){
+			return currentPlayer;
+		}
+		
+		/**
+		 * Return the next player in the list. Goes north, west, south, east
+		 * @return
+		 */
+		public Players getNextPlayer(){
+			switch(currentPlayer){
+			case north:
+				currentPlayer = Players.west;
+				break;
+			case west:
+				currentPlayer = Players.south;
+				break;
+			case south:
+				currentPlayer = Players.east;
+				break;
+			case east:
+				currentPlayer = Players.north;
+				break;
+			default:
+				break;
+			}
+			
+			firstCard = false;
+			return currentPlayer;
+		}
+		
+		public boolean gameEnd(){
+			if(firstCard == false)						//If not the first card anymore
+				if (currentPlayer == firstPlayer)		//If we have gone full circle to the first player
+					return true;						//End game
+			return false;
+		}
+	}
 	
 	/**
 	 * Create a new Five Hundred Game. Player list is passed in from north, west, south, and east seats
 	 * @param players List of FiveHundredHand players. Order passed in is north, west, south, east
 	 */
-	public FiveHundredGame (ArrayList<FiveHundredHand> players){
+	public FiveHundredGame (HashMap<Players,FiveHundredHand> players){
 		this.players = players;
-		north = players.get(0);
-		west = players.get(1);
-		south = players.get(2);
-		east = players.get(3);
+		north = players.get(Players.north);
+		west = players.get(Players.west);
+		south = players.get(Players.south);
+		east = players.get(Players.east);
 		
 		
 		createDeck();
 		
 		// Create Kitty here. May change later on
 		kitty = new FiveHundredHand("kitty");
-		tableCards = new ArrayList<Card>();
+		tableCards = new HashMap<Players, Card>();
+		
+		gameState = new GameState();
 	}
 	
 	/**
@@ -143,11 +219,33 @@ public class FiveHundredGame {
 	
 	public void run(){
 		//Current player
-		FiveHundredHand currentPlayer = players.get(currentTurn);
-		//TODO tableCards.add(currentPlayer.getSelected())
+		FiveHundredHand currentPlayer = players.get(gameState.getCurrentPlayer());
+		
+		//Check if that player has selected a card
+		if(currentPlayer.getSelected()!=null){
+			
+			//If so remove the card
+			Card playedCard = currentPlayer.removeSelected();
+			
+			//Add it to the table cards
+			tableCards.put(gameState.getCurrentPlayer(), playedCard);
+			
+			//If everyone has played their cards
+			if(gameState.gameEnd()){
+				endRound();
+			} else {
+				//Set the game state to the next player
+				gameState.getNextPlayer();
+			}
+		}
+
 	}
 	
+	
 	public void endRound(){
+		//Clear the current player and first player
+		gameState.setFirstPlayer(Players.none);
+		
 		
 	}
 

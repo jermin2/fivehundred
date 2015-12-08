@@ -12,6 +12,9 @@ import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
 import javax.swing.JPanel;
+
+import main.java.FiveHundredGame.Players;
+
 import java.awt.Insets;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
@@ -64,23 +67,23 @@ public class FiveHundredGUI {
 	
 	public void initialize_game(){
 		
-		ArrayList<FiveHundredHand> players = new ArrayList<FiveHundredHand>();
+		HashMap<FiveHundredGame.Players,FiveHundredHand> players = new HashMap<FiveHundredGame.Players,FiveHundredHand>();
 
 		FiveHundredHand n = new FiveHundredHand("north");
 		ncardPanel.setHand(n);
-		players.add(n);
+		players.put(Players.north,n);
 		
 		FiveHundredHand w = new FiveHundredHand("west");
 		wcardPanel.setHand(w);
-		players.add(w);
+		players.put(Players.west,w);
 		
 		FiveHundredHand s = new FiveHundredHand("south");
 		scardPanel.setHand(s);
-		players.add(s);
+		players.put(Players.south,s);
 		
 		FiveHundredHand e = new FiveHundredHand("east");
 		ecardPanel.setHand(e);
-		players.add(e);
+		players.put(Players.east,e);
 		
 
 		
