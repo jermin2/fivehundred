@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import cardgame.Card;
+import cardgame.Card.Suits;
 import cardgame.Deck;
 
 public class FiveHundredGame {
@@ -247,6 +248,34 @@ public class FiveHundredGame {
 		gameState.setFirstPlayer(Players.none);
 		
 		
+	}
+	
+	/**
+	 * Need to know the winning suit, and the first card led
+	 * @param leadingSuit
+	 * @param card
+	 * @return false if not valid for current hand
+	 */
+	public boolean checkValidCard(Suits winningSuit, Card firstCard, Card currentCard){
+		//Check if its a trump suit or not
+		
+		//Check that its the same suit
+		if(sameSuit(firstCard, currentCard)){
+			
+		}
+		return false;
+	}
+	
+	/**
+	 * 
+	 * @param card1
+	 * @param card2
+	 * @return
+	 */
+	private boolean sameSuit(Card card1, Card card2){
+		if(card1.getSuit() == card2.getSuit())
+			return true;
+		return false;
 	}
 
 }

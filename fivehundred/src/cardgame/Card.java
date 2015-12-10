@@ -7,6 +7,10 @@ import common.Sprite;
 public class Card {
 	private short rank, suit, value;
 	private String picture = "b";			//Shorthand name of picture
+	
+	//TODO: Merge this with the string?
+	public enum Suits {spades, clubs, diamonds, hearts};
+	
 	private static String[] suits = {"spades", "clubs", "diamonds", "hearts" };
 	private static String[] ranks = {"ace", "2", "3", "4","5", "6", "7","8","9","ten","jack","queen","king"};
 	private static String[] jokers = {"joker", "joker"};
