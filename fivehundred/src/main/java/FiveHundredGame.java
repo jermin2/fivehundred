@@ -21,22 +21,84 @@ public class FiveHundredGame {
 	
 	private HashMap<Players,Card> tableCards;
 	
-	private GameState gameState;
+	private RoundState gameState;
+	
+	public enum trumps {spades, clubs, diamonds, hearts, no_trumps, misere}
 	
 	private String bids[] = {"6s", "6c", "6d","6h","6NT","7s","7c","7d","7h","7NT","CLOSED","8s","8c","8d","8h","8NT","OPEN",
 			"9s","9c","9d","9h","9NT","10s","10c","10d","10h","10NT"};
 	
+	
 	/**
-	 * Internal class to keep track of whos turn it is. 
+	 * Internal class to keep track of the Hand (as in all 10 cards played. There should be 10 RoundState objects
+	 * used/created. Needs to know the winning bid
+	 * @author Jermin
+	 *
+	 */
+	class HandState {
+		private trumps current_trump;
+		private RoundState current_round;
+		
+		//Keep track of score
+		private int score_north_south = 0;
+		private int score_west_east = 0;
+		
+		public HandState() {
+			Players firstPlayer = doBid();
+			current_round = new RoundState();
+			current_round.setFirstPlayer(firstPlayer);
+		}
+		
+		/**
+		 * Checks the state to see if the round has ended. If it has, then calculate 
+		 * the winning hand, increment the score, and start the next round
+		 */
+		public void checkForEnd(){
+			//Change the state if stuff happens
+			if(current_round.roundEnd()){
+				//TODO: find a way to calculate the winner of the round
+				Players round_winner = Players.north; 
+				
+				//Add the score to the winning team
+				if(round_winner == Players.north || round_winner == Players.south)
+					score_north_south++;
+				else
+					score_west_east++;
+				
+				//Reset the round and start the next round
+				current_round.reset();
+				current_round.setFirstPlayer(round_winner);
+			}
+		}// End checkForEnd()
+
+		
+		/**
+		 * Sets the trump and returns the winning player
+		 * @return the
+		 */
+		public Players doBid(){
+			current_trump = trumps.spades;
+			return Players.north;
+		}
+	}
+	/**
+	 * Internal class to keep track of whos turn it is for the Round (as in each
+	 * player plays one hand)
 	 * @author jermi
 	 *
 	 */
-	class GameState {
+	class RoundState {
 		
 		private Players currentPlayer = Players.none;	
 		private Players firstPlayer = Players.none;
 		private boolean firstCard = true;
 		
+		
+		public void reset(){
+			currentPlayer = Players.none;
+			firstPlayer = Players.none;
+			firstCard = true;
+		}
 		/**
 		 * Set the first player
 		 * @param p The first player of the round
@@ -89,12 +151,13 @@ public class FiveHundredGame {
 			return currentPlayer;
 		}
 		
-		public boolean gameEnd(){
+		public boolean roundEnd(){
 			if(firstCard == false)						//If not the first card anymore
 				if (currentPlayer == firstPlayer)		//If we have gone full circle to the first player
 					return true;						//End game
 			return false;
 		}
+
 	}
 	
 	/**
@@ -115,7 +178,7 @@ public class FiveHundredGame {
 		kitty = new FiveHundredHand("kitty");
 		tableCards = new HashMap<Players, Card>();
 		
-		gameState = new GameState();
+		gameState = new RoundState();
 	}
 	
 	/**
@@ -232,7 +295,7 @@ public class FiveHundredGame {
 			tableCards.put(gameState.getCurrentPlayer(), playedCard);
 			
 			//If everyone has played their cards
-			if(gameState.gameEnd()){
+			if(gameState.roundEnd()){
 				endRound();
 			} else {
 				//Set the game state to the next player
