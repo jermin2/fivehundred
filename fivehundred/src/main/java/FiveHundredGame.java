@@ -7,16 +7,17 @@ import java.util.LinkedList;
 import cardgame.Card;
 import cardgame.Card.Suits;
 import cardgame.Deck;
+import common.Listener;
+import common.Notifier;
 
-public class FiveHundredGame {
+public class FiveHundredGame implements Notifier {
 
 	private Deck deck;
-	private FiveHundredHand north, west, south, east;
+	private FiveHundredHand north, west, south, east, kitty;
 	private HashMap<Players,FiveHundredHand> players;
 	
-	public enum Players {north, west, south, east, none};	
+	public enum Players {north, west, south, east, kitty, none};	
 	
-	private FiveHundredHand kitty;
 	private ArrayList<String> bidding;
 	
 	private HashMap<Players,Card> tableCards;
@@ -170,12 +171,10 @@ public class FiveHundredGame {
 		west = players.get(Players.west);
 		south = players.get(Players.south);
 		east = players.get(Players.east);
-		
+		kitty = players.get(Players.kitty);
 		
 		createDeck();
 		
-		// Create Kitty here. May change later on
-		kitty = new FiveHundredHand("kitty");
 		tableCards = new HashMap<Players, Card>();
 		
 		gameState = new RoundState();
@@ -341,4 +340,22 @@ public class FiveHundredGame {
 		return false;
 	}
 
+/*  Listener/Notifier stuff
+ * (non-Javadoc)
+ * @see common.Notifier#addListener(common.Listener)
+ */
+	@Override
+	public void addListener(Listener newListener) {
+		// TODO Auto-generated method stub
+		listeners.add(newListener);
+	}
+
+	ArrayList<Listener> listeners = new ArrayList<Listener>(); 
+	@Override
+	public void notify_all() {
+		// TODO Auto-generated method stub
+		for(Listener l : listeners){
+			l.notifyMe();
+		}
+	}
 }

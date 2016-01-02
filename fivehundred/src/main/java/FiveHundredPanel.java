@@ -9,8 +9,9 @@ import java.util.HashMap;
 import javax.swing.JPanel;
 
 import cardgame.Card;
+import common.Listener;
 
-public class FiveHundredPanel extends JPanel {
+public class FiveHundredPanel extends JPanel implements Listener{
 
 	//TODO: IMplement mouseActionListener for move
 	HashMap<String, Image> images;
@@ -134,6 +135,11 @@ public class FiveHundredPanel extends JPanel {
 	}
 	
 	public void doSomething(){
+		repaint();
+	}
+
+	@Override
+	public void notifyMe() {
 		repaint();
 	}
 	
